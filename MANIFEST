@@ -6,3 +6,4 @@ README
 
 lib/PerlPoint/Template/Traditional.pm
 
+META.yml                                 Module meta-data (added by MakeMaker)

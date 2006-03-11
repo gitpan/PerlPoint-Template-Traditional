@@ -5,6 +5,7 @@
 # ---------------------------------------------------------------------------------------
 # version | date     | author   | changes
 # ---------------------------------------------------------------------------------------
+# 0.02    |03.12.2005| JSTENZEL | producing better XHTML: empty tags closed (<tag />);
 # 0.01    |08.07.2004| JSTENZEL | new.
 # ---------------------------------------------------------------------------------------
 
@@ -16,7 +17,7 @@ B<PerlPoint::Template::Traditional> - PerlPoint template processor for tradition
 
 =head1 VERSION
 
-This manual describes version B<0.01>.
+This manual describes version B<0.02>.
 
 =head1 SYNOPSIS
 
@@ -41,8 +42,8 @@ require 5.00503;
 package PerlPoint::Template::Traditional;
 
 # declare package version and author
-$VERSION=0.01;
-$AUTHOR=$AUTHOR='J. Stenzel (perl@jochen-stenzel.de), 2004';
+$VERSION=0.02;
+$AUTHOR=$AUTHOR='J. Stenzel (perl@jochen-stenzel.de), 2004-2006';
 
 
 # = PRAGMA SECTION =======================================================================
@@ -1000,13 +1001,13 @@ sub _processTemplate
                                                            $_ ? qq( title="$title") : '', 
                                                            ' rel="',  $_<2 ? 'stylesheet' : 'alternate stylesheet', '"',
                                                            qq( type="text/css"),
-                                                           qq(>\n),
+                                                           qq( />\n),
                                                           );
                                                      } 0..$#{$options->{css}} : (),
                       );
 
   # add favicon link, if necessary
-  my $faviconLinkTag=exists $me->{options}{favicon} ? qq(<link href="$me->{options}{favicon}" rel="SHORTCUT ICON" type="image/ico">\n) : '';
+  my $faviconLinkTag=exists $me->{options}{favicon} ? qq(<link href="$me->{options}{favicon}" rel="SHORTCUT ICON" type="image/ico" />\n) : '';
 
   # the "doc..." options are reserved for further data ... stored in meta tags
   my $docMetaTags='';
@@ -1014,29 +1015,29 @@ sub _processTemplate
     {
      /^doc(.+)$/;
      my $tag=$me->{generator}->elementName("_$1");
-     $docMetaTags.=join('', qq(  <meta name="$tag" contents="$options->{$_}">\n)) if exists $options->{$_};
+     $docMetaTags.=join('', qq(  <meta name="$tag" content="$options->{$_}" />\n)) if exists $options->{$_};
     };
 
   # add more meta tags, if necessary
-  $docMetaTags.=qq(  <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">\n) if exists $options->{norobots};
-  $docMetaTags.=qq(  <meta name="MSSmartTagsPreventParsing" content="true">\n) if exists $options->{nosmarttags};
+  $docMetaTags.=qq(  <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />\n) if exists $options->{norobots};
+  $docMetaTags.=qq(  <meta name="MSSmartTagsPreventParsing" content="true" />\n) if exists $options->{nosmarttags};
 
   # prepare <link> navigation if required
   my $linkNavigation='';
   if (exists $options->{linknavigation})
     {
      # activate available elements
-     $linkNavigation.=qq(  <link rel="start" href="$td->{fFile}">\n) if $td->{fFile};
-     $linkNavigation.=qq(  <link rel="prev"  href="$td->{pFile}">\n) if $td->{pFile};
-     $linkNavigation.=qq(  <link rel="next"  href="$td->{nFile}">\n) if $td->{nFile};
-     $linkNavigation.=qq(  <link rel="up"    href="$td->{uFile}">\n) if $td->{uFile};
-     $linkNavigation.=qq(  <link rel="last"  href="$td->{lFile}">\n) if $td->{lFile};
+     $linkNavigation.=qq(  <link rel="start" href="$td->{fFile}" />\n) if $td->{fFile};
+     $linkNavigation.=qq(  <link rel="prev"  href="$td->{pFile}" />\n) if $td->{pFile};
+     $linkNavigation.=qq(  <link rel="next"  href="$td->{nFile}" />\n) if $td->{nFile};
+     $linkNavigation.=qq(  <link rel="up"    href="$td->{uFile}" />\n) if $td->{uFile};
+     $linkNavigation.=qq(  <link rel="last"  href="$td->{lFile}" />\n) if $td->{lFile};
 
      # the contents link is always available
-     $linkNavigation.=qq(  <link rel="contents" href="$td->{tocFile}">\n);
+     $linkNavigation.=qq(  <link rel="contents" href="$td->{tocFile}" />\n);
 
      # add the index link, if possible
-     $linkNavigation.=qq(  <link rel="index" href="$td->{indexFile}">\n) if $td->{indexFile} and not exists $options->{no_index};
+     $linkNavigation.=qq(  <link rel="index" href="$td->{indexFile}" />\n) if $td->{indexFile} and not exists $options->{no_index};
     }
 
   # prepare the linked page path
@@ -1264,7 +1265,7 @@ as well.
 
 =head1 AUTHOR
 
-Copyright (c) Jochen Stenzel (perl@jochen-stenzel.de), 2004.
+Copyright (c) Jochen Stenzel (perl@jochen-stenzel.de), 2004-2006.
 All rights reserved.
 
 This module is free software, you can redistribute it and/or modify it
